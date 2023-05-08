@@ -9,7 +9,6 @@
             {% endif %}
         {% endblock %}
 
-
         {% if cl.search_fields %}
             <div class="form-group">
                 <input class="form-control" type="text" name="{{ search_var }}" value="{{ cl.query }}" id="searchbar">
@@ -36,7 +35,13 @@
                     {% if pair.0 != search_var %}<input type="hidden" name="{{ pair.0 }}" value="{{ pair.1 }}">{% endif %}
                 {% endfor %}
             </div>
+
         {% endif %}
 
     </form>
+
+    {% if cl.search_fields %}
+        <small id="searchbarHelp" class="form-text text-muted">{{ cl.search_help_text }}</small>
+    {% endif %}
+
 </div>
