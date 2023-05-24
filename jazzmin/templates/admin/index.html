@@ -72,7 +72,13 @@
             <div class="module" id="recent-actions-module">
                 <h4 class="mb-3">{% trans 'Recent actions' %}</h4>
                 {% load log %}
-                {% get_admin_log 6 as admin_log for_user user %}
+
+                {% if user.is_superuser %}
+                    {% get_admin_log 10 as admin_log %}
+                {% else %}
+                    {% get_admin_log 6 as admin_log for_user user %}
+                {% endif %}
+
                 {% if not admin_log %}
                     <p>{% trans 'None available' %}</p>
                 {% else %}
@@ -107,12 +113,12 @@
                                     {% if not entry.is_deletion %}
                                         <div class="timeline-body">
                                             {% if entry.is_addition %}
-                                                {{ entry }}
+                                                {{ entry.user }} {{ entry|lower }}
                                             {% else %}
                                                 <ul style="list-style: none; padding: 0;">
                                                     {% action_message_to_list entry as action_message_list %}
                                                     {% for action_message in action_message_list %}
-                                                        <li>{{ action_message.msg|style_bold_first_word }}</li>
+                                                        <li>{{ entry.user }} {{ action_message.msg|lower }}</li>
                                                     {% endfor %}
                                                 </ul>
                                             {% endif %}
